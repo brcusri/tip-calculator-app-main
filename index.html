@@ -8,9 +8,8 @@
   
   <link rel="stylesheet" media="screen" href="responsive.css" type="text/css">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
+
+
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,15 +37,29 @@
         </div>
         <label>Select Tip %</label><br><br>
         <div class="col-div"id="btn">
-          <button type="button" id="btn5">5%</button>
-          <button type="button"id="btn10">10%</button>
-          <button type="button"id="btn15">15%</button>
-          <button type="button"id="btn25">25%</button>
-          <button type="button" id="btn50">50%</button>
-          <input class="input-num" id="Custom" placeholder="Custom" type="number">
+          <div>
+            <button type="button"  class ="btn" data-perc="0.05">5%</button>
+          </div>
+          <div>
+            <button type="button" class = "btn"data-perc="0.1">10%</button>
+          </div>
+          <div>
+            <button type="button" class ="btn" data-perc="0.15">15%</button>
+          </div>
+          <div>
+            <button type="button" class = "btn"data-perc="0.25">25%</button>
+          </div>
+          <div>
+            <button type="button" class="btn" data-perc="0.5">50%</button>
+          </div>
+          <div>
+            <input class="input-num" id="Custom" placeholder="Custom" type="number">
+          </div>
+         
         </div>
         <label>Number Of People</label><br>
         <div class="col-div">
+          <label id="alert"></label>
           <input class="input-num" id="Person" placeholder="0" type="number" required>
         </div>
     </div>

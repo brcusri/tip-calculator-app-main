@@ -2,104 +2,73 @@
 var tipAmount =0;
 var total = [];
 var customArr = [];
+
 function totalAmount(){
     sum = 0;
     for (let i in total){
         sum+=total[i]; 
     }
-    document.getElementById("totaloutput").innerHTML = "$ " + sum.toFixed(2);
+    localStorage.setItem("totalAmount",sum);
+    totaloutput.innerHTML = "$ " + sum.toFixed(2);
 }
-window.onload = function(){
+document.addEventListener('DOMContentLoaded',(event)=>{
     var billid = document.getElementById("Bill");
     var NumOfPEopleId = document.getElementById("Person");
     var customid = document.getElementById("Custom");
-    document.getElementById("btn5").addEventListener("click", btn5);
-    document.getElementById("btn10").addEventListener("click", btn10);
-    document.getElementById("btn15").addEventListener("click", btn15);
-    document.getElementById("btn25").addEventListener("click", btn25);
-    document.getElementById("btn50").addEventListener("click", btn50);
+    var elements =document.getElementsByClassName("btn");
+    var tipoutput = document.getElementById("tipoutput");
+    var totaloutput = document.getElementById("totaloutput");
+
+    customid.addEventListener("keypress", btn);
     document.getElementById("reset-btn").addEventListener("click", resetbtn);
-     function btn5(){ 
-        let bill = billid.value;
-        let NumOfPEople = NumOfPEopleId.value;
-        let custom = customid.value;
-        customArr.push(custom);
-        tipAmount = (bill*0.05)/NumOfPEople; 
-        total.push(tipAmount);
-        window.totalAmount();
-        document.getElementById("tipoutput").innerHTML = "$ " + tipAmount.toFixed(2);
-        
+    for (let elm of elements){
+        elm.addEventListener("click", btn);
     }
-    function btn10(){
-        let bill = billid.value;
-        let NumOfPEople = NumOfPEopleId.value;
-        let custom = customid.value;
-        customArr.push(custom);
-        tipAmount = (bill*0.10)/NumOfPEople;
-        total.push(tipAmount);
-        window.totalAmount();
-        document.getElementById("tipoutput").innerHTML = "$ " + tipAmount.toFixed(2);
-        
+
+    if(localStorage.tipAmount){
+
+        tipoutput.innerHTML = "$ " + localStorage.getItem("tipAmount");    
     }
-    function btn15(){
-        let bill = billid.value;
-        let NumOfPEople = NumOfPEopleId.value;
-        let custom = customid.value;
-        customArr.push(custom);
-        tipAmount = (bill*0.15)/NumOfPEople;
-        total.push(tipAmount);
-        window.totalAmount();
-        document.getElementById("tipoutput").innerHTML = "$ " + tipAmount.toFixed(2);
+    else{
+        tipoutput.innerHTML = "$ 0.0";
     }
-    function btn25(){
-        let NumOfPEople = NumOfPEopleId.value;
-        let bill = billid.value;
-        let custom = customid.value;
-        customArr.push(custom);
-        tipAmount = (bill*0.25)/NumOfPEople;
-        total.push(tipAmount);
-        window.totalAmount();
-        document.getElementById("tipoutput").innerHTML = "$ " + tipAmount.toFixed(2);
-       
+
+    if(localStorage.totalAmount){
+        totaloutput.innerHTML = "$ " + localStorage.getItem("totalAmount");
     }
-    function btn50(){
+    else{
+        totaloutput.innerHTML = "$ 0.0";
+    }
+    
+    function btn(e){ 
         let bill = billid.value;
+        var tipPerc = this.getAttribute('data-perc');
         let NumOfPEople = NumOfPEopleId.value;
         let custom = customid.value;
-        customArr.push(custom);
-        tipAmount = (bill*0.50)/NumOfPEople;
-        total.push(tipAmount);
-        window.totalAmount();
-        document.getElementById("tipoutput").innerHTML = "$ " + tipAmount.toFixed(2);
+        if(NumOfPEople=== "0" || NumOfPEople==="")
+        {
+            document.getElementById("alert").innerHTML = "Can't be zero";
+            return false;
+        }
+        else{
+            if(e.key==='Enter'){
+                customperc = custom/100;
+                tipAmount = (bill*customperc)/NumOfPEople;
+            }
+            else{
+                tipAmount = (bill*tipPerc)/NumOfPEople;
+            }
+            total.push(tipAmount);
+            totalAmount();
+            localStorage.setItem("tipAmount", tipAmount);
+            tipoutput.innerHTML = "$ " + tipAmount.toFixed(2); 
+            
+        }
     }
     function resetbtn(){
-        document.getElementById("calculate-form").reset();
-        document.getElementById("tipoutput").innerHTML = "$ 0.0"
-        document.getElementById("totaloutput").innerHTML = "$ 0.0"
-        total = [];
-        custom = []
+        localStorage.clear();
+        tipoutput.innerHTML = "$ 0.0";
+        totaloutput.innerHTML = "$ 0.0";
     }
-
-
-
-  
-
-    /**
-    tipAmount = (bill*0.05).NumOfPEople;
-    tipAmount = (bill*0.10).NumOfPEople;
-    tipAmount = (bill*0.15).NumOfPEople;
-    tipAmount = (bill*0.25).NumOfPEople;
-    tipAmount = (bill*0.50).NumOfPEople;
-
-
-    Total dizi toplam fonk
-
-     total.push(tipAmount);
-        sum = 0;
-        for (var i= 0; i<=total.length;i++){
-            sum+=Number(total[i]);
-        }
-        document.getElementById("totaloutput").innerHTML = "$ " + sum.toFixed(2);
-
-     */
-}
+})
+    
